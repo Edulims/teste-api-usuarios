@@ -10,14 +10,20 @@ describe('Testes da Funcionalidade Usuários', () => {
     })
   });
 
-  it.only('Deve validar contrato de usuários', () => {
+  it('Deve validar contrato de usuários', () => {
     cy.request('usuarios').then(response => {
             return contrato.validateAsync(response.body)
         }) 
   });
 
-  it('Deve listar usuários cadastrados', () => {
-    //TODO: 
+  it.only('Deve listar usuários cadastrados', () => {
+    cy.request({
+      method: 'GET',
+      url: 'usuarios'
+    }).then((response) => {
+      expect(response.status).to.equal(200)
+      expect(response.body).to.have.property('usuarios')
+    })
   });
 
   it('Deve cadastrar um usuário com sucesso', () => {
