@@ -16,7 +16,7 @@ describe('Testes da Funcionalidade Usuários', () => {
         }) 
   });
 
-  it.only('Deve listar usuários cadastrados', () => {
+  it('Deve listar usuários cadastrados', () => {
     cy.request({
       method: 'GET',
       url: 'usuarios'
@@ -26,8 +26,24 @@ describe('Testes da Funcionalidade Usuários', () => {
     })
   });
 
-  it('Deve cadastrar um usuário com sucesso', () => {
-    //TODO: 
+  it.only('Deve cadastrar um usuário com sucesso', () => {
+    let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
+    cy.request({
+      method: 'POST',
+      url: 'usuarios',
+      body: {
+          "nome": nomeuser,
+          "email": nomeuser + '@teste.com.br',
+          "password": "teste",
+          "administrador": 'true'
+      },
+      headers: { authorization: token }
+    }).then((response) => {
+      
+        expect(response.status).to.equal(201)
+        expect(response.body.message).to.equal('Cadastro realizado com sucesso')
+      
+    })
   });
 
   it('Deve validar um usuário com email inválido', () => {
