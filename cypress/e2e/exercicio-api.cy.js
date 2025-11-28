@@ -26,7 +26,7 @@ describe('Testes da Funcionalidade Usuários', () => {
     })
   });
 
-  it.only('Deve cadastrar um usuário com sucesso', () => {
+  it('Deve cadastrar um usuário com sucesso', () => {
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
     cy.request({
       method: 'POST',
@@ -39,15 +39,28 @@ describe('Testes da Funcionalidade Usuários', () => {
       },
       headers: { authorization: token }
     }).then((response) => {
-      
         expect(response.status).to.equal(201)
         expect(response.body.message).to.equal('Cadastro realizado com sucesso')
-      
     })
   });
 
-  it('Deve validar um usuário com email inválido', () => {
-    //TODO: 
+  it.only('Deve validar um usuário com email inválido', () => {
+    let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
+     cy.request({
+      method: 'POST',
+      url: 'usuarios',
+      body: {
+        "nome": nomeuser,
+        "email": 'fulano@qa.com' ,
+        "password": "teste",
+        "administrador": 'true'
+      }, 
+      headers: { authorization: token },
+      failOnStatusCode: false
+     }).then(response => {
+          expect(response.status).to.equal(400)
+          expect(response.body.message).to.equal('Este email já está sendo usado')
+     })
   });
 
   it('Deve editar um usuário previamente cadastrado', () => {
