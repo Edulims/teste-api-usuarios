@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+/// <reference types="cypress"/>
 import contrato from '../contracts/usuarios.contract'
 
 describe('Testes da Funcionalidade Usuários', () => {
@@ -44,7 +44,7 @@ describe('Testes da Funcionalidade Usuários', () => {
     })
   });
 
-  it.only('Deve validar um usuário com email inválido', () => {
+  it('Deve validar um usuário com email inválido', () => {
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
      cy.request({
       method: 'POST',
@@ -63,8 +63,28 @@ describe('Testes da Funcionalidade Usuários', () => {
      })
   });
 
-  it('Deve editar um usuário previamente cadastrado', () => {
-    //TODO: 
+  it.only('Deve editar um usuário previamente cadastrado', () => {
+    //TODO:
+    let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
+    let email = nomeuser + '@teste.com'
+    cy.cadastrarUsuario(token, nomeuser, email, 'teste', 'true')
+      .then(response => {
+        let id = response.body._id
+        cy.request({
+          method: 'PUT',
+          url: `usuarios/${id}`,
+          body: {
+            "nome": nomeuser,
+            "email": email,
+            "password": "SenhaTesteAlterada",
+            "administrador": 'true'
+          }, headers: { authorization: token }
+        }).then(response => {
+          expect(response.status).to.equal(200)
+          expect(response.body.message).to.equal("Registro alterado com sucesso")
+        })
+      })
+         
   });
 
   it('Deve deletar um usuário previamente cadastrado', () => {

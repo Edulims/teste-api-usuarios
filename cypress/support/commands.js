@@ -22,7 +22,22 @@ Cypress.Commands.add('token', (email, senha) => {
             "preco": preco,
             "descricao": descricao,
             "quantidade": quantidade
-          }, 
+        }, 
           failOnStatusCode: false
+    })
+ })
+
+ Cypress.Commands.add('cadastrarUsuario', (token, nomeUser, email, senha, adm) => {
+    cy.request({
+        method: 'POST',
+        url: 'usuarios',
+        headers: {authorization: token}, 
+        body: {
+            "nome": nomeUser,
+            "email": email ,
+            "password": senha,
+            "administrador": adm
+        },
+        failOnStatusCode: false
     })
  })
