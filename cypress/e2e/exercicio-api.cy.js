@@ -63,7 +63,7 @@ describe('Testes da Funcionalidade Usuários', () => {
      })
   });
 
-  it.only('Deve editar um usuário previamente cadastrado', () => {
+  it('Deve editar um usuário previamente cadastrado', () => {
     //TODO:
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
     let email = nomeuser + '@teste.com'
@@ -87,8 +87,22 @@ describe('Testes da Funcionalidade Usuários', () => {
          
   });
 
-  it('Deve deletar um usuário previamente cadastrado', () => {
-    //TODO: 
+  it.only('Deve deletar um usuário previamente cadastrado', () => {
+    //TODO:
+    let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
+    let email = nomeuser + '@teste.com'
+    cy.cadastrarUsuario(token, nomeuser, email, 'teste', 'true')
+      .then(response => {
+        let id = response.body._id
+        cy.request({
+          method: 'DELETE',
+          url: `usuarios/${id}`,
+          headers: {authorization: token}
+        }).then(response =>{
+          expect(response.status).to.equal(200)
+          expect(response.body.message).to.equal("Registro excluído com sucesso")
+        })
+    })
   });
 
 
