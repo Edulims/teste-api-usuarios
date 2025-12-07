@@ -26,19 +26,11 @@ describe('Testes da Funcionalidade Usuários', () => {
     })
   });
 
-  it('Deve cadastrar um usuário com sucesso', () => {
+  it.only('Deve cadastrar um usuário com sucesso', () => {
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
-    cy.request({
-      method: 'POST',
-      url: 'usuarios',
-      body: {
-          "nome": nomeuser,
-          "email": nomeuser + '@teste.com.br',
-          "password": "teste",
-          "administrador": 'true'
-      },
-      headers: { authorization: token }
-    }).then((response) => {
+    let email = nomeuser + '@teste.com'
+    cy.cadastrarUsuario(token, nomeuser, email, 'teste', 'true')
+    .then((response) => {
         expect(response.status).to.equal(201)
         expect(response.body.message).to.equal('Cadastro realizado com sucesso')
     })
@@ -64,7 +56,6 @@ describe('Testes da Funcionalidade Usuários', () => {
   });
 
   it('Deve editar um usuário previamente cadastrado', () => {
-    //TODO:
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
     let email = nomeuser + '@teste.com'
     cy.cadastrarUsuario(token, nomeuser, email, 'teste', 'true')
@@ -87,8 +78,7 @@ describe('Testes da Funcionalidade Usuários', () => {
          
   });
 
-  it.only('Deve deletar um usuário previamente cadastrado', () => {
-    //TODO:
+  it('Deve deletar um usuário previamente cadastrado', () => {
     let nomeuser = `UserTeste.${Math.floor(Math.random() * 100000000)}`
     let email = nomeuser + '@teste.com'
     cy.cadastrarUsuario(token, nomeuser, email, 'teste', 'true')
