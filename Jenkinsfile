@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                git branch: 'main', url: 'https://github.com/Edulims/teste-e2e-ebac.git'
+                git branch: 'main', url: 'https://github.com/Edulims/teste-api-usuarios'
                 bat 'npm install'
             }
         }
