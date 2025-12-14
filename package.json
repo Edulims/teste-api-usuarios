@@ -1,18 +1,19 @@
 {
-  "name": "teste-api-ebac",
+  "name": "teste-e2e-ebac",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx serverest",
-    "cy:run": "npx cypress run"
+    "cy:run": "npx cypress run",
+    "test": "npx start-server-and-test start http://localhost:3000 cy:run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cypress": "^13.6.0",
-    "joi": "^17.13.3"
+    "serverest": "^2.0.0",
+    "start-server-and-test": "^2.0.0"
   }
 }
